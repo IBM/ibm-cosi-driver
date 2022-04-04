@@ -5,9 +5,9 @@ metadata:
   name: objectstorage-provisioner-role
   labels:
     app.kubernetes.io/part-of: container-object-storage-interface
-    app.kubernetes.io/component: driver-sample
+    app.kubernetes.io/component: driver-ibm
     app.kubernetes.io/version: main
-    app.kubernetes.io/name: cosi-driver-sample
+    app.kubernetes.io/name: cosi-driver-ibm
 rules:
 - apiGroups: ["objectstorage.k8s.io"]
   resources: ["buckets", "bucketaccesses","buckets/status", "bucketaccesses/status"]
@@ -25,9 +25,9 @@ metadata:
   name: objectstorage-provisioner-role-binding
   labels:
     app.kubernetes.io/part-of: container-object-storage-interface
-    app.kubernetes.io/component: driver-sample
+    app.kubernetes.io/component: driver-ibm
     app.kubernetes.io/version: main
-    app.kubernetes.io/name: cosi-driver-sample
+    app.kubernetes.io/name: cosi-driver-ibm
 subjects:
   - kind: ServiceAccount
     name: objectstorage-provisioner-sa
