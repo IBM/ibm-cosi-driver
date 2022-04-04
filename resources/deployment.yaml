@@ -37,14 +37,20 @@ spec:
         emptyDir: {}
       containers:
       - name: ibm-cosi-driver
-        image: ibm-cosi-driver:latest
-        imagePullPolicy: Never
+        image: ibm/ibm-cosi-driver:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - secretRef:
+            name: objectstorage-provisioner
         volumeMounts:
         - mountPath: /var/lib/cosi
           name: socket
       - name: objectstorage-provisioner-sidecar
         image: $(COSI_IMAGE_ORG)/objectstorage-sidecar:$(COSI_IMAGE_VERSION)
         imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: objectstorage-provisioner
         env:
         - name: POD_NAMESPACE
           valueFrom:

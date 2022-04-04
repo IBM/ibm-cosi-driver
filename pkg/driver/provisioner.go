@@ -6,6 +6,7 @@ import (
 	cosClient "github.com/IBM/ibm-cosi-driver/pkg/util/cosclient"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"k8s.io/klog/v2"
 
 	cosi "sigs.k8s.io/container-object-storage-interface-spec"
 )
@@ -22,6 +23,8 @@ func (p *ProvisionerServer) ProvisionerCreateBucket(ctx context.Context,
 
 	bucketName := req.GetName()
 
+	klog.InfoS("PROVISIONER", "CREATE BUCKET", bucketName)
+
 	err := p.cosClient.CreateBucket(bucketName)
 
 	if err != nil {
@@ -32,19 +35,26 @@ func (p *ProvisionerServer) ProvisionerCreateBucket(ctx context.Context,
 	}, nil
 
 }
-func (s *ProvisionerServer) ProvisionerDeleteBucket(ctx context.Context,
+func (p *ProvisionerServer) ProvisionerDeleteBucket(ctx context.Context,
 	req *cosi.ProvisionerDeleteBucketRequest) (*cosi.ProvisionerDeleteBucketResponse, error) {
 
 	return nil, status.Error(codes.Unimplemented, "ProvisionerCreateBucket: not implemented")
 }
 
-func (s *ProvisionerServer) ProvisionerGrantBucketAccess(ctx context.Context,
+func (p *ProvisionerServer) ProvisionerGrantBucketAccess(ctx context.Context,
 	req *cosi.ProvisionerGrantBucketAccessRequest) (*cosi.ProvisionerGrantBucketAccessResponse, error) {
 
-	return nil, status.Error(codes.Unimplemented, "ProvisionerCreateBucket: not implemented")
+	// bucketNmae := req.GetBucketId()
+
+	accountId := req.GetAccountName()
+	klog.InfoS("PROVISIONER", "Grant ACCESS", accountId)
+
+	return &cosi.ProvisionerGrantBucketAccessResponse{
+		AccountId: accountId}, nil
+
 }
 
-func (s *ProvisionerServer) ProvisionerRevokeBucketAccess(ctx context.Context,
+func (p *ProvisionerServer) ProvisionerRevokeBucketAccess(ctx context.Context,
 	req *cosi.ProvisionerRevokeBucketAccessRequest) (*cosi.ProvisionerRevokeBucketAccessResponse, error) {
 
 	return nil, status.Error(codes.Unimplemented, "ProvisionerCreateBucket: not implemented")

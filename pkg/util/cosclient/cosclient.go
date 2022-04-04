@@ -10,6 +10,7 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3"
 	"github.com/golang/glog"
+	"k8s.io/klog/v2"
 )
 
 type ObjectStorageClient struct {
@@ -32,6 +33,9 @@ func NewCOSClient(endpoint, locationConstraint string, creds *ObjectStorageCrede
 	} else {
 		sdkCreds = credentials.NewStaticCredentials(creds.AccessKey, creds.SecretKey, "")
 	}
+
+	klog.InfoS("Creating CLIENT", "access key", creds.AccessKey)
+
 	sess := session.Must(session.NewSession(&aws.Config{
 		S3ForcePathStyle: aws.Bool(true),
 		Endpoint:         aws.String(endpoint),
@@ -51,9 +55,12 @@ func (s *ObjectStorageClient) CreateBucket(name string) error {
 }
 
 func (s *ObjectStorageClient) createBucket(name string) error {
+
 	_, err := s.svc.CreateBucket(&s3.CreateBucketInput{
 		Bucket: aws.String(name),
 	})
+
+	klog.InfoS("Creating Bucket", name)
 
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok && aerr.Code() == "BucketAlreadyOwnedByYou" {

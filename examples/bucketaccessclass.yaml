@@ -1,0 +1,7 @@
+kind: BucketAccessClass
+apiVersion: objectstorage.k8s.io/v1alpha1
+metadata:
+  name: demo-bac
+policyActionsConfigMap:
+  name: pacm
+  namespace: ibm-cosi-driver
