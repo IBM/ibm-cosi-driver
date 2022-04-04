@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aws-cli
+spec:
+  containers:
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      stdin: true
+      tty: true
+      volumeMounts:
+        - name: cosi-secrets
+          mountPath: /data/cosi
+  volumes:
+  - name: cosi-secrets
+    csi:
+      driver: objectstorage.k8s.io
+      volumeAttributes:
+        bar-name: demo-bar
+        bar-namespace: default

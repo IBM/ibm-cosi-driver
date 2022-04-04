@@ -19,8 +19,8 @@ const provisionerName = "ibm.objectstorage.k8s.io"
 
 var (
 	driverAddress      = "unix:///var/lib/cosi/cosi.sock"
-	endpoint           = ""
-	locationConstraint = ""
+	endpoint           = "https://s3.us.cloud-object-storage.appdomain.cloud"
+	locationConstraint = "east"
 	accessKey          = ""
 	secretKey          = ""
 )

@@ -11,6 +11,8 @@ import (
 )
 
 func main() {
+	klog.InfoS("*******START DRIVER NO VERBOSITY")
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
