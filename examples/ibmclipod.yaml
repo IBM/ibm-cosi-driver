@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: awscli
+  name: ibmcli
 spec:
   containers:
-    - name: awscli
-      # TODO: Replace the image with an official one once Amazon  publishes theirs
-      image: mikesir87/aws-cli:1.16.220
+    - name: ibmcli
+      image: ibmcom/ibm-cloud-developer-tools-amd64
       stdin: true
       tty: true
       volumeMounts:

@@ -13,6 +13,7 @@ import (
 
 type ProvisionerServer struct {
 	cosClient *cosClient.ObjectStorageClient
+
 	// iamClient   *iam.Client
 	provisioner string
 }
@@ -49,8 +50,18 @@ func (p *ProvisionerServer) ProvisionerGrantBucketAccess(ctx context.Context,
 	accountId := req.GetAccountName()
 	klog.InfoS("PROVISIONER", "Grant ACCESS", accountId)
 
+	creds, err := p.cosClient.GetCreds()
+	if err != nil {
+		klog.Error("Could not retrive creds", err)
+
+		return nil, err
+
+	}
+
 	return &cosi.ProvisionerGrantBucketAccessResponse{
-		AccountId: accountId}, nil
+		AccountId:   accountId,
+		Credentials: creds,
+	}, nil
 
 }
 

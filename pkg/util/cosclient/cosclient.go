@@ -14,7 +14,8 @@ import (
 )
 
 type ObjectStorageClient struct {
-	svc *s3.S3
+	svc   *s3.S3
+	creds *ObjectStorageCredentials
 }
 
 type ObjectStorageCredentials struct {
@@ -32,6 +33,7 @@ func NewCOSClient(endpoint, locationConstraint string, creds *ObjectStorageCrede
 		sdkCreds = ibmiam.NewStaticCredentials(aws.NewConfig(), creds.APIKey, creds.ServiceInstanceID, creds.IAMEndpoint)
 	} else {
 		sdkCreds = credentials.NewStaticCredentials(creds.AccessKey, creds.SecretKey, "")
+
 	}
 
 	klog.InfoS("Creating CLIENT", "access key", creds.AccessKey)
@@ -46,7 +48,8 @@ func NewCOSClient(endpoint, locationConstraint string, creds *ObjectStorageCrede
 	service := s3.New(sess)
 
 	return &ObjectStorageClient{
-		svc: service,
+		svc:   service,
+		creds: creds,
 	}, nil
 }
 
@@ -71,5 +74,10 @@ func (s *ObjectStorageClient) createBucket(name string) error {
 	}
 
 	return nil
+
+}
+
+func (s *ObjectStorageClient) GetCreds() (string, error) {
+	return fmt.Sprintf("[default]\naccess_key %s\nsecret_key %s", s.creds.AccessKey, s.creds.SecretKey), nil
 
 }
