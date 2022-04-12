@@ -4,3 +4,4 @@
 *.swp
 bin
 .idea
+resources/secret.yaml
