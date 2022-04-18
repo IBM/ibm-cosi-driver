@@ -1,7 +1,7 @@
 kind: BucketRequest
 apiVersion: objectstorage.k8s.io/v1alpha1
 metadata:
-  name: demo-br2
+  name: demo-br
 spec:
   bucketClassName: demo-bc2
   bucketPrefix: hackathon

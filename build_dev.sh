@@ -15,14 +15,21 @@ docker tag ibm-cosi-driver:latest ibm/ibm-cosi-driver:latest
 
 
 
-kubectl delete bucketclass --all
-kubectl delete bucketrequest --all
-kubectl delete bucketaccessclass --all
-kubectl delete bucketaccessrequest --all
-kubectl delete pods awscli
 
-kubectl create -f examples/bucketclass.yaml
-kubectl create -f examples/bucketrequest.yaml
-kubectl create -f examples/bucketaccessclass.yaml
-kubectl create -f examples/bucketaccessrequest.yaml
-kubectl create -f examples/demopod.yaml
+#Do once to create allow serviceAccount read secret
+# kubectl create -f examples/simple_rbac.yaml
+# kubectl create -f resources/simple_role_binding.yaml
+
+
+# Steps to delete and create example manifests
+# kubectl delete bucketclass --all
+# kubectl delete bucketrequest --all
+# kubectl delete bucketaccessclass --all
+# kubectl delete bucketaccessrequest --all
+# kubectl delete pods awscli
+
+# kubectl create -f examples/bucketclass.yaml
+# kubectl create -f examples/bucketrequest.yaml
+# kubectl create -f examples/bucketaccessclass.yaml
+# kubectl create -f examples/bucketaccessrequest.yaml
+# kubectl create -f examples/demopod.yaml

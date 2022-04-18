@@ -6,16 +6,21 @@ spec:
   containers:
     - name: awscli
       # TODO: Replace the image with an official one once Amazon  publishes theirs
-      image: mikesir87/aws-cli:1.16.220
+      image: mikesir87/aws-cli:latest
       stdin: true
       tty: true
       volumeMounts:
         - name: cosi-secrets
           mountPath: /data/cosi
+        - name: bucket-name
+          mountPath: /data/bucket
   volumes:
   - name: cosi-secrets
     csi:
       driver: objectstorage.k8s.io
       volumeAttributes:
-        bar-name: demo-bar2
+        bar-name: demo-bar
         bar-namespace: default
+  - name: bucket-name
+    configMap:
+      name: bucket-data

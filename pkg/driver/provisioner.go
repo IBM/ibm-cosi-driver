@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	cosClient "github.com/IBM/ibm-cosi-driver/pkg/util/cosclient"
+	namewriter "github.com/IBM/ibm-cosi-driver/pkg/util/namewriter"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"k8s.io/klog/v2"
@@ -26,11 +27,14 @@ func (p *ProvisionerServer) ProvisionerCreateBucket(ctx context.Context,
 
 	klog.InfoS("PROVISIONER", "CREATE BUCKET", bucketName)
 
+	namewriter.UpdateBucketrData("test-user", bucketName)
+
 	err := p.cosClient.CreateBucket(bucketName)
 
 	if err != nil {
 		return nil, err
 	}
+
 	return &cosi.ProvisionerCreateBucketResponse{
 		BucketId: bucketName,
 	}, nil
@@ -46,9 +50,10 @@ func (p *ProvisionerServer) ProvisionerGrantBucketAccess(ctx context.Context,
 	req *cosi.ProvisionerGrantBucketAccessRequest) (*cosi.ProvisionerGrantBucketAccessResponse, error) {
 
 	// bucketNmae := req.GetBucketId()
-
 	accountId := req.GetAccountName()
-	klog.InfoS("PROVISIONER", "Grant ACCESS", accountId)
+	bucketName := req.GetBucketId()
+	accessPolicy := req.GetAccessPolicy()
+	klog.InfoS("Granting user accessPolicy to bucket", "userName", accountId, "bucketName", bucketName, "accessPolicy", accessPolicy)
 
 	creds, err := p.cosClient.GetCreds()
 	if err != nil {
